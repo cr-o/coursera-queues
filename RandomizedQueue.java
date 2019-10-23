@@ -6,6 +6,13 @@ import java.util.Iterator;
  *  Description:
  **************************************************************************** */
 public class RandomizedQueue<Item> implements Iterable<Item> {
+    private Item first = null;
+
+    private class Node {
+        Item data;
+        Node next;
+    }
+
     // construct an empty randomized queue
     public RandomizedQueue() {
     }
