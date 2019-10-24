@@ -7,18 +7,18 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class Dequeue<Item> implements Iterable<Item> {
+public class Deque<Item> implements Iterable<Item> {
     private Node first;
     private Node last;
 
     private class Node {
         Item data;
         Node next;
-        Node previous;
+        Node prev;
     }
 
     // construct an empty deque
-    public Dequeue() {
+    public Deque() {
     }
 
     // is the deque empty?
@@ -36,6 +36,11 @@ public class Dequeue<Item> implements Iterable<Item> {
         if (item == null) {
             throw new IllegalArgumentException("Cannot addFirst with illegal argument");
         }
+        Node newFirst = new Node();
+        newFirst.data = item;
+        newFirst.next = first;
+        first = newFirst;
+
     }
 
     // add the item to the back
@@ -43,6 +48,10 @@ public class Dequeue<Item> implements Iterable<Item> {
         if (item == null) {
             throw new IllegalArgumentException("Cannot addFirst with illegal argument");
         }
+        Node newLast = new Node();
+        newLast.data = item;
+        last.next = newLast;
+        last = newLast;
     }
 
     // remove and return the item from the front
@@ -50,6 +59,9 @@ public class Dequeue<Item> implements Iterable<Item> {
         if (size() == 0) {
             throw new NoSuchElementException("Cannot removeFirst, no such element exists");
         }
+        Item oldFirstData = first.data;
+        first = first.next;
+        return oldFirstData;
     }
 
     // remove and return the item from the back
@@ -57,6 +69,7 @@ public class Dequeue<Item> implements Iterable<Item> {
         if (size() == 0) {
             throw new NoSuchElementException("Cannot removeFirst, no such element exists");
         }
+        Item oldLastData = last.data;
     }
 
     // return an iterator over items in order from front to back
@@ -84,6 +97,6 @@ public class Dequeue<Item> implements Iterable<Item> {
 
     // unit testing (required)
     public static void main(String[] args) {
-        Dequeue dequeue = new Dequeue<Int>();
+        Deque Deque = new Deque<Int>();
     }
 }
