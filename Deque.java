@@ -10,7 +10,7 @@ import java.util.NoSuchElementException;
 public class Deque<Item> implements Iterable<Item> {
     private Node first;
     private Node last;
-    private Deque<Item> deque;
+    private int size;
 
     private class Node {
         Item data;
@@ -29,9 +29,18 @@ public class Deque<Item> implements Iterable<Item> {
 
     // return the number of items on the deque
     public int size() {
-        int size = 0;
-        for (Item current : deque) {
-            size++;
+        if (first == null) {
+            size = 0;
+        }
+        else {
+            for (Item item : this) {
+                size++;
+            }
+            // Iterator<Item> iterator = this.iterator();
+            // while (iterator.hasNext()) {
+            //     Item item = iterator.next();
+            //     size++;
+            // }
         }
         return size;
     }
@@ -48,6 +57,9 @@ public class Deque<Item> implements Iterable<Item> {
             first.prev = newFirst;
         }
         first = newFirst;
+        if (this.size() == 1) {
+            last = first;
+        }
 
     }
 
@@ -100,6 +112,9 @@ public class Deque<Item> implements Iterable<Item> {
         }
 
         public Item next() {
+            if (current == null) {
+                throw new NoSuchElementException("Cannot removeFirst, no such element exists");
+            }
             Item next = current.data;
             current = current.next;
             return next;
