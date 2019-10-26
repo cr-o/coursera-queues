@@ -74,7 +74,7 @@ public class Deque<Item> implements Iterable<Item> {
 
     // remove and return the item from the front
     public Item removeFirst() {
-        if (size() == 0) {
+        if (isEmpty()) {
             throw new NoSuchElementException("Cannot removeFirst, no such element exists");
         }
         Node newFirst = first.next;
@@ -86,7 +86,7 @@ public class Deque<Item> implements Iterable<Item> {
 
     // remove and return the item from the back
     public Item removeLast() {
-        if (size() == 0) {
+        if (isEmpty()) {
             throw new NoSuchElementException("Cannot removeFirst, no such element exists");
         }
         Node newLast = last.prev;
@@ -127,7 +127,7 @@ public class Deque<Item> implements Iterable<Item> {
         Deque<Integer> deque = new Deque<Integer>();
         deque.addFirst(5);
         deque.addFirst(1);
-
+        deque.isEmpty();
         deque.addFirst(2);
         deque.addFirst(6);
 
