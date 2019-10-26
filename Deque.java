@@ -20,7 +20,6 @@ public class Deque<Item> implements Iterable<Item> {
 
     // construct an empty deque
     public Deque() {
-        deque = new Deque<Item>();
     }
 
     // is the deque empty?
@@ -45,7 +44,9 @@ public class Deque<Item> implements Iterable<Item> {
         Node newFirst = new Node();
         newFirst.data = item;
         newFirst.next = first;
-        first.prev = newFirst;
+        if (first != null) {
+            first.prev = newFirst;
+        }
         first = newFirst;
 
     }
@@ -78,6 +79,8 @@ public class Deque<Item> implements Iterable<Item> {
             throw new NoSuchElementException("Cannot removeFirst, no such element exists");
         }
         Item oldLastData = last.data;
+        last.prev = last;
+        return oldLastData;
     }
 
     // return an iterator over items in order from front to back
