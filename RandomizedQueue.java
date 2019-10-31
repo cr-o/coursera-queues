@@ -44,11 +44,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         if (randomizedQueue.length == size) {
             doubleSize();
         }
-
-        Item temporary = randomizedQueue[size];
         randomizedQueue[size++] = item;
-
-        // add anywhere
     }
 
     private void doubleSize() {
@@ -71,11 +67,14 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // remove and return a random item
     public Item dequeue() {
-        // remove at random
         if (randomizedQueue.length / 2 == size) {
             halveSize();
-        }//always fill any "holes" by swapping in the last element
+        }
+        int i = StdRandom.uniform(0, size);
+        Item toRemove = randomizedQueue[i];
+        randomizedQueue[i] = randomizedQueue[size];
         size--;
+        return toRemove;
     }
 
     // return a random item (but do not remove it)
@@ -90,8 +89,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     public class ListIterator implements Iterator<Item> {
-        private int index;
-
+        private int index = 1;
 
         public boolean hasNext() {
             return index < size;
@@ -102,17 +100,18 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
 
         public Item next() {
-            if (size == 0) {
+            if (size == 0 || index == size - 1) {
                 throw new NoSuchElementException("No more elements to return");
             }
             if (hasNext()) {
                 index = StdRandom.uniform(0, size);
             }
-            return randomizedQueue[index + 1];
+            return randomizedQueue[index];
         }
     }
 
     // unit testing (required)
     public static void main(String[] args) {
+
     }
 }
