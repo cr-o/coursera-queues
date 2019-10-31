@@ -1,6 +1,7 @@
+import edu.princeton.cs.algs4.StdRandom;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
 /* *****************************************************************************
  *  Name:
  *  Date:
@@ -30,7 +31,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // is the randomized queue empty?
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     // return the number of items on the randomized queue
@@ -41,23 +42,46 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     // add the item
     public void enqueue(Item item) {
         if (randomizedQueue.length == size) {
-            Item[] newQueue = (Item[]) new Object[size * 2];
-            size = size * 2;
+            doubleSize();
         }
-        else {
-            size++;
-        }
+
+        Item temporary = randomizedQueue[size];
+        randomizedQueue[size++] = item;
+
         // add anywhere
+    }
+
+    private void doubleSize() {
+        Item[] newQueue = (Item[]) new Object[size * 2];
+        size = size * 2;
+        for (int i = 0; i < size; i++) {
+            newQueue[i] = randomizedQueue[i];
+        }
+        randomizedQueue = newQueue;
+    }
+
+    private void halveSize() {
+        Item[] newQueue = (Item[]) new Object[size / 4];
+        size = size / 4;
+        for (int i = 0; i < size; i++) {
+            newQueue[i] = randomizedQueue[i];
+        }
+        randomizedQueue = newQueue;
     }
 
     // remove and return a random item
     public Item dequeue() {
         // remove at random
+        if (randomizedQueue.length / 2 == size) {
+            halveSize();
+        }//always fill any "holes" by swapping in the last element
         size--;
     }
 
     // return a random item (but do not remove it)
     public Item sample() {
+        int i = StdRandom.uniform(0, size);
+        return randomizedQueue[i];
     }
 
     // return an independent iterator over items in random order
@@ -66,10 +90,11 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     public class ListIterator implements Iterator<Item> {
-        private int index = size;
+        private int index;
+
 
         public boolean hasNext() {
-            return index < randomizedQueue.length;
+            return index < size;
         }
 
         public void remove() {
@@ -77,8 +102,11 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
 
         public Item next() {
-            if (index >= randomizedQueue.length - 1) {
-                throw new NoSuchElementException("Cannot removeFirst, no such element exists");
+            if (size == 0) {
+                throw new NoSuchElementException("No more elements to return");
+            }
+            if (hasNext()) {
+                index = StdRandom.uniform(0, size);
             }
             return randomizedQueue[index + 1];
         }
