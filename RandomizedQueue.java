@@ -25,8 +25,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // construct an empty randomized queue
     public RandomizedQueue() {
-        size = 1;
-        randomizedQueue = (Item[]) new Object[size];
+        randomizedQueue = (Item[]) new Object[1];
+        size = 0;
     }
 
     // is the randomized queue empty?
@@ -43,13 +43,17 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public void enqueue(Item item) {
         if (randomizedQueue.length == size) {
             doubleSize();
+            size = size * 2;
+            randomizedQueue[size - 1] = item;
         }
-        randomizedQueue[size++] = item;
+        else {
+            randomizedQueue[size] = item;
+            size++;
+        }
     }
 
     private void doubleSize() {
         Item[] newQueue = (Item[]) new Object[size * 2];
-        size = size * 2;
         for (int i = 0; i < size; i++) {
             newQueue[i] = randomizedQueue[i];
         }
@@ -112,6 +116,16 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // unit testing (required)
     public static void main(String[] args) {
-
+        RandomizedQueue<Integer> rq = new RandomizedQueue<Integer>();
+        System.out.print(rq.isEmpty());
+        rq.enqueue(1);
+        rq.enqueue(2);
+        rq.enqueue(3);
+        rq.enqueue(4);
+        rq.enqueue(5);
+        rq.enqueue(6);
+        rq.enqueue(7);
+        rq.enqueue(8);
+        rq.enqueue(9);
     }
 }
