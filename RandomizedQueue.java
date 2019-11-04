@@ -43,13 +43,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public void enqueue(Item item) {
         if (randomizedQueue.length == size) {
             doubleSize();
-            size = size * 2;
-            randomizedQueue[size - 1] = item;
         }
-        else {
-            randomizedQueue[size] = item;
-            size++;
-        }
+        randomizedQueue[size] = item;
+        size += 1;
     }
 
     private void doubleSize() {
@@ -61,8 +57,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     private void halveSize() {
-        Item[] newQueue = (Item[]) new Object[size / 4];
-        size = size / 4;
+        Item[] newQueue = (Item[]) new Object[size / 2];
         for (int i = 0; i < size; i++) {
             newQueue[i] = randomizedQueue[i];
         }
@@ -71,12 +66,13 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // remove and return a random item
     public Item dequeue() {
-        if (randomizedQueue.length / 2 == size) {
+        if (randomizedQueue.length / 4 == size) {
             halveSize();
         }
         int i = StdRandom.uniform(0, size);
         Item toRemove = randomizedQueue[i];
-        randomizedQueue[i] = randomizedQueue[size];
+        randomizedQueue[i] = randomizedQueue[size - 1];
+        randomizedQueue[size - 1] = null;
         size--;
         return toRemove;
     }
@@ -118,6 +114,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public static void main(String[] args) {
         RandomizedQueue<Integer> rq = new RandomizedQueue<Integer>();
         System.out.print(rq.isEmpty());
+        rq.enqueue(0);
         rq.enqueue(1);
         rq.enqueue(2);
         rq.enqueue(3);
@@ -127,5 +124,37 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         rq.enqueue(7);
         rq.enqueue(8);
         rq.enqueue(9);
+        System.out.printf("%n%d%n", rq.size());
+        System.out.print(rq.isEmpty());
+        rq.dequeue();
+        System.out.printf("%n%d%n", rq.size());
+        System.out.print(rq.isEmpty());
+        rq.dequeue();
+        System.out.printf("%n%d%n", rq.size());
+        System.out.print(rq.isEmpty());
+        rq.dequeue();
+        System.out.printf("%n%d%n", rq.size());
+        System.out.print(rq.isEmpty());
+        rq.dequeue();
+        System.out.printf("%n%d%n", rq.size());
+        System.out.print(rq.isEmpty());
+        rq.dequeue();
+        System.out.printf("%n%d%n", rq.size());
+        System.out.print(rq.isEmpty());
+        rq.dequeue();
+        System.out.printf("%n%d%n", rq.size());
+        System.out.print(rq.isEmpty());
+        rq.dequeue();
+        System.out.printf("%n%d%n", rq.size());
+        System.out.print(rq.isEmpty());
+        rq.dequeue();
+        System.out.printf("%n%d%n", rq.size());
+        System.out.print(rq.isEmpty());
+        rq.dequeue();
+        System.out.printf("%n%d%n", rq.size());
+        System.out.print(rq.isEmpty());
+        rq.dequeue();
+        System.out.printf("%n%d%n", rq.size());
+        System.out.print(rq.isEmpty());
     }
 }
