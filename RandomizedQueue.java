@@ -49,7 +49,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     private void doubleSize() {
-        Item[] newQueue = (Item[]) new Object[size * 2];
+        Item[] newQueue = (Item[]) new Object[randomizedQueue.length * 2];
         for (int i = 0; i < size; i++) {
             newQueue[i] = randomizedQueue[i];
         }
@@ -57,7 +57,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     private void halveSize() {
-        Item[] newQueue = (Item[]) new Object[size / 2];
+        Item[] newQueue = (Item[]) new Object[randomizedQueue.length / 2];
         for (int i = 0; i < size; i++) {
             newQueue[i] = randomizedQueue[i];
         }
@@ -89,9 +89,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     public class ListIterator implements Iterator<Item> {
-        private int index = 1;
+        private int index;
 
         public boolean hasNext() {
+            index = StdRandom.uniform(0, size);
             return index < size;
         }
 
@@ -100,13 +101,16 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
 
         public Item next() {
-            if (size == 0 || index == size - 1) {
+            if (size == 0) {
                 throw new NoSuchElementException("No more elements to return");
             }
             if (hasNext()) {
                 index = StdRandom.uniform(0, size);
+                return randomizedQueue[index];
             }
-            return randomizedQueue[index];
+            else {
+                throw new NoSuchElementException("No more elements to return");
+            }
         }
     }
 
