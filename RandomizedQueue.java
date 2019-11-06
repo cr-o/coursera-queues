@@ -36,6 +36,11 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // return the number of items on the randomized queue
     public int size() {
+        // Iterator<Item> it = this.iterator();
+        // Item item;
+        // while (it.hasNext()) {
+        //     item = it.next();
+        // }
         return size;
     }
 
@@ -92,6 +97,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         private int index;
 
         public boolean hasNext() {
+            if (size == 0) {
+                throw new NoSuchElementException("No more elements to return");
+            }
             index = StdRandom.uniform(0, size);
             return index < size;
         }
@@ -101,11 +109,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
 
         public Item next() {
-            if (size == 0) {
-                throw new NoSuchElementException("No more elements to return");
-            }
             if (hasNext()) {
-                index = StdRandom.uniform(0, size);
                 return randomizedQueue[index];
             }
             else {
@@ -128,6 +132,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         rq.enqueue(7);
         rq.enqueue(8);
         rq.enqueue(9);
+        rq.duh();
         System.out.printf("%n%d%n", rq.size());
         System.out.print(rq.isEmpty());
         rq.dequeue();

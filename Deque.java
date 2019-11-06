@@ -34,8 +34,9 @@ public class Deque<Item> implements Iterable<Item> {
                 size++;
             }
             // Iterator<Item> iterator = this.iterator();
+            // Item item;
             // while (iterator.hasNext()) {
-            //     Item item = iterator.next();
+            //     item = iterator.next();
             //     size++;
             // }
         }
