@@ -8,17 +8,6 @@ import java.util.NoSuchElementException;
  *  Description:
  **************************************************************************** */
 
-/*
-What does “uniformly at random” mean? If there are n items in the randomized queue, then you should choose each one with probability 1/n, up to the randomness of StdRandom.uniform(), independent of past decisions. You can generate a pseudo-random integer between 0 and n − 1 using StdRandom.uniform(n).
-
-How can I rearrange the entries of an array in uniformly random order? Use StdRandom.shuffle()—it implements the Knuth shuffle discussed in lecture and runs in linear time. Note that depending on your implementation, you may not need to call this method.
-
-Can repeated calls to sample() in a randomized queue return the same item more than once? Yes, since you are sampling without removing the item. This is also known as “sampling with replacement.”
-
-Should two iterators to the same randomized queue return the items in the same order? No, each iterator should have a different random order. This is what “independent iterators” means.
-
-Why is it called a randomized queue if the items are not removed in first-in first-out order? This is a common name used in queueing theory.
-*/
 public class RandomizedQueue<Item> implements Iterable<Item> {
     private Item[] randomizedQueue;
     private int size;
@@ -132,7 +121,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         rq.enqueue(7);
         rq.enqueue(8);
         rq.enqueue(9);
-        rq.duh();
         System.out.printf("%n%d%n", rq.size());
         System.out.print(rq.isEmpty());
         rq.dequeue();
