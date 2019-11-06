@@ -1,19 +1,22 @@
-/* *****************************************************************************
- *  Name:
- *  Date:
- *  Description:
- **************************************************************************** */
+import edu.princeton.cs.algs4.StdIn;
 
 public class Permutation {
     public static void main(String[] args) {
-        /* Write a client program Permutation.java
-        that takes an integer k as a command-line argument;
-        reads a sequence of strings from standard input
-        using StdIn.readString(); and prints
-        exactly k of them, uniformly at random.
-        Print each item from the sequence at most once. */
+        int k = Integer.parseInt(args[0]);
+        while (k > 0) {
+            if (StdIn.hasNextLine()) {
+                String string = StdIn.readString();
+                System.out.printf("%s%n", string);
+            }
+            k--;
+        }
     }
 }
+/* Write a client program Permutation.java that takes an integer k as a command-line argument;
+reads a sequence of strings from standard input using StdIn.readString();
+and prints exactly k of them, uniformly at random.
+Print each item from the sequence at most once. */
+
 /*
 Command-line argument.
 You may assume that 0 ≤ k ≤ n,
