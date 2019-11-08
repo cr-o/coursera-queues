@@ -2,18 +2,27 @@ import edu.princeton.cs.algs4.StdIn;
 
 public class Permutation {
     public static void main(String[] args) {
-        int k = Integer.parseInt(args[0]);
-        while (k > 0) {
-            if (StdIn.hasNextLine()) {
-                String string = StdIn.readString();
-                System.out.printf("%s%n", string);
+        if (args.length == 1) {
+            int k = Integer.parseInt(args[0]);
+            String string = "";
+            RandomizedQueue<String> randomizedQueue = new RandomizedQueue<String>();
+            while (StdIn.hasNextLine()) {
+                string = StdIn.readString();
+                randomizedQueue.enqueue(string);
             }
-            k--;
+            string = "";
+            while (k >= 0) {
+                string = randomizedQueue.dequeue() + System.lineSeparator();
+                System.out.print(string);
+                k--;
+            }
+
         }
     }
 }
+
 /* Write a client program Permutation.java that takes an integer k as a command-line argument;
-reads a sequence of strings from standard input using StdIn.readString();
+reads a sequence of strings from stadndard input using StdIn.readString();
 and prints exactly k of them, uniformly at random.
 Print each item from the sequence at most once. */
 
