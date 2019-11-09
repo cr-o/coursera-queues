@@ -82,7 +82,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         return new ListIterator();
     }
 
-    public class ListIterator implements Iterator<Item> {
+    private class ListIterator implements Iterator<Item> {
         private int index;
 
         public boolean hasNext() {
@@ -110,7 +110,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     // unit testing (required)
     public static void main(String[] args) {
         RandomizedQueue<Integer> rq = new RandomizedQueue<Integer>();
-        System.out.print(rq.isEmpty());
+        assert (rq.isEmpty());
         rq.enqueue(0);
         rq.enqueue(1);
         rq.enqueue(2);
@@ -121,37 +121,18 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         rq.enqueue(7);
         rq.enqueue(8);
         rq.enqueue(9);
-        System.out.printf("%n%d%n", rq.size());
-        System.out.print(rq.isEmpty());
+        assert (rq.size() == 10);
+        assert (!rq.isEmpty());
         rq.dequeue();
-        System.out.printf("%n%d%n", rq.size());
-        System.out.print(rq.isEmpty());
         rq.dequeue();
-        System.out.printf("%n%d%n", rq.size());
-        System.out.print(rq.isEmpty());
         rq.dequeue();
-        System.out.printf("%n%d%n", rq.size());
-        System.out.print(rq.isEmpty());
         rq.dequeue();
-        System.out.printf("%n%d%n", rq.size());
-        System.out.print(rq.isEmpty());
         rq.dequeue();
-        System.out.printf("%n%d%n", rq.size());
-        System.out.print(rq.isEmpty());
         rq.dequeue();
-        System.out.printf("%n%d%n", rq.size());
-        System.out.print(rq.isEmpty());
         rq.dequeue();
-        System.out.printf("%n%d%n", rq.size());
-        System.out.print(rq.isEmpty());
         rq.dequeue();
-        System.out.printf("%n%d%n", rq.size());
-        System.out.print(rq.isEmpty());
         rq.dequeue();
-        System.out.printf("%n%d%n", rq.size());
-        System.out.print(rq.isEmpty());
         rq.dequeue();
-        System.out.printf("%n%d%n", rq.size());
-        System.out.print(rq.isEmpty());
+        assert (rq.isEmpty());
     }
 }
