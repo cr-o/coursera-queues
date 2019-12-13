@@ -33,10 +33,9 @@
   </component>
   <component name="ProjectId" id="1SUVkmp7Gli22hXA8NkREpxzAEc" />
   <component name="PropertiesComponent">
-    <property name="ToolWindowMessages.ShowToolbar" value="false" />
     <property name="ToolWindowRun.ShowToolbar" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="settings.saveactions" />
+    <property name="settings.editor.selected.configurable" value="project.propCompiler" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -64,7 +63,7 @@
     <configuration name="Permutation" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Permutation" />
       <module name="Algorithms, Part I" />
-      <option name="PROGRAM_PARAMETERS" value="6" />
+      <option name="PROGRAM_PARAMETERS" value="1" />
       <method v="2" />
     </configuration>
     <configuration name="RandomizedQueue" type="Application" factoryName="Application">

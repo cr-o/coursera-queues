@@ -11,7 +11,7 @@ public class Permutation {
                 randomizedQueue.enqueue(string);
             }
             string = "";
-            while (k >= 0) {
+            while (k > 0) {
                 string = randomizedQueue.dequeue() + System.lineSeparator();
                 System.out.print(string);
                 k--;
