@@ -10,17 +10,17 @@ import java.util.NoSuchElementException;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
     private Item[] randomizedQueue;
-    private int size;
+    private int rqSize;
 
     // construct an empty randomized queue
     public RandomizedQueue() {
         randomizedQueue = (Item[]) new Object[1];
-        size = 0;
+        rqSize = 0;
     }
 
     // is the randomized queue empty?
     public boolean isEmpty() {
-        return size == 0;
+        return rqSize == 0;
     }
 
     // return the number of items on the randomized queue
@@ -30,21 +30,21 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         // while (it.hasNext()) {
         //     item = it.next();
         // }
-        return size;
+        return rqSize;
     }
 
     // add the item
     public void enqueue(Item item) {
-        if (randomizedQueue.length == size) {
+        if (randomizedQueue.length == rqSize) {
             doubleSize();
         }
-        randomizedQueue[size] = item;
-        size += 1;
+        randomizedQueue[rqSize] = item;
+        rqSize += 1;
     }
 
     private void doubleSize() {
         Item[] newQueue = (Item[]) new Object[randomizedQueue.length * 2];
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < rqSize; i++) {
             newQueue[i] = randomizedQueue[i];
         }
         randomizedQueue = newQueue;
@@ -52,7 +52,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     private void halveSize() {
         Item[] newQueue = (Item[]) new Object[randomizedQueue.length / 2];
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < rqSize; i++) {
             newQueue[i] = randomizedQueue[i];
         }
         randomizedQueue = newQueue;
@@ -60,20 +60,20 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // remove and return a random item
     public Item dequeue() {
-        if (randomizedQueue.length / 4 == size) {
+        if (randomizedQueue.length / 4 == rqSize) {
             halveSize();
         }
-        int i = StdRandom.uniform(0, size);
+        int i = StdRandom.uniform(0, rqSize);
         Item toRemove = randomizedQueue[i];
-        randomizedQueue[i] = randomizedQueue[size - 1];
-        randomizedQueue[size - 1] = null;
-        size--;
+        randomizedQueue[i] = randomizedQueue[rqSize - 1];
+        randomizedQueue[rqSize - 1] = null;
+        rqSize--;
         return toRemove;
     }
 
     // return a random item (but do not remove it)
     public Item sample() {
-        int i = StdRandom.uniform(0, size);
+        int i = StdRandom.uniform(0, rqSize);
         return randomizedQueue[i];
     }
 
@@ -83,14 +83,14 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     private class ListIterator implements Iterator<Item> {
-        private int index;
+        private int index = StdRandom.uniform(0, rqSize);
 
         public boolean hasNext() {
-            if (size == 0) {
+            if (rqSize == 0) {
                 throw new NoSuchElementException("No more elements to return");
             }
-            index = StdRandom.uniform(0, size);
-            return index < size;
+            index = StdRandom.uniform(0, rqSize);
+            return index < rqSize;
         }
 
         public void remove() {

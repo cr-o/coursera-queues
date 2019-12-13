@@ -6,23 +6,23 @@ Compilation:  PASSED (0 errors, 3 warnings)
 API:          PASSED
 
 Spotbugs:     PASSED
-PMD:          FAILED (1 warning)
+PMD:          PASSED
 Checkstyle:   PASSED
 
-Correctness:  31/43 tests passed
+Correctness:  28/43 tests passed
 Memory:       125/125 tests passed
-Timing:       132/193 tests passed
+Timing:       169/193 tests passed
 
-Aggregate score: 76.93%
+Aggregate score: 76.58%
 [Compilation: 5%, API: 5%, Spotbugs: 0%, PMD: 0%, Checkstyle: 0%, Correctness: 60%, Memory: 10%, Timing: 20%]
 
 ASSESSMENT DETAILS
 
 The following files were submitted:
 ----------------------------------
-4.9K Dec 13 20:49 Deque.java
- 679 Dec 13 20:49 Permutation.java
-3.7K Dec 13 20:49 RandomizedQueue.java
+5.4K Dec 13 22:02 Deque.java
+ 679 Dec 13 22:02 Permutation.java
+3.8K Dec 13 22:02 RandomizedQueue.java
 
 
 ********************************************************************************
@@ -90,8 +90,6 @@ Permutation:
 
 % pmd .
 *-----------------------------------------------------------
-Deque.java:35: Avoid unused local variables, such as 'item'. [UnusedLocalVariable]
-PMD ends with 1 warning.
 
 
 ================================================================
@@ -102,7 +100,6 @@ PMD ends with 1 warning.
 
 % custom checkstyle checks for Deque.java
 *-----------------------------------------------------------
-[INFO] Deque.java:35: Using a loop in this method might be a performance bug. [Performance]
 
 % custom checkstyle checks for RandomizedQueue.java
 *-----------------------------------------------------------
@@ -201,50 +198,96 @@ Test 8: check whether two Deque objects can be created at the same time
 
 Test 9: check iterator() after n calls to addFirst()
   * n = 10
+
+
+        ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+        OperationCountLimitExceededException
+        Number of calls to next() and hasNext() exceeds limit: 10000000
+        ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
   * n = 50
-==> passed
+
+
+        ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+        OperationCountLimitExceededException
+        Number of calls to next() and hasNext() exceeds limit: 10000000
+        ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+==> FAILED
 
 Test 10: check iterator() after each of m intermixed calls to
          addFirst(), addLast(), removeFirst(), and removeLast()
   * m = 20
-    - number of student   entries = 1
-    - number of reference entries = 0
-    - iterator() failed after applying operation 2
+
+
+        ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+        OperationCountLimitExceededException
+        Number of calls to next() and hasNext() exceeds limit: 10000000
+        ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
     - sequence of operations was:
          Deque deque<Integer> = new Deque<Integer>()
          deque.addFirst(1)
-         deque.removeLast()    ==> 1
 
   * m = 50
-    - number of student   entries = 1
-    - number of reference entries = 0
-    - iterator() failed after applying operation 2
-    - sequence of operations was:
-         Deque deque<Integer> = new Deque<Integer>()
-         deque.addFirst(1)
-         deque.removeLast()    ==> 1
 
-  * m = 100
-    - number of student   entries = 1
-    - number of reference entries = 0
-    - iterator() failed after applying operation 4
+
+        ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+        OperationCountLimitExceededException
+        Number of calls to next() and hasNext() exceeds limit: 10000000
+        ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
     - sequence of operations was:
          Deque deque<Integer> = new Deque<Integer>()
          deque.addLast(1)
-         deque.addFirst(2)
-         deque.removeLast()    ==> 1
-         deque.removeLast()    ==> 2
+
+  * m = 100
+
+
+        ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+        OperationCountLimitExceededException
+        Number of calls to next() and hasNext() exceeds limit: 10000000
+        ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+    - sequence of operations was:
+         Deque deque<Integer> = new Deque<Integer>()
+         deque.addLast(1)
 
   * m = 1000
+
+
+        ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+        OperationCountLimitExceededException
+        Number of calls to next() and hasNext() exceeds limit: 10000000
+        ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+    - sequence of operations was:
+         Deque deque<Integer> = new Deque<Integer>()
+         deque.addFirst(1)
+
 ==> FAILED
 
 Test 11: create two nested iterators to same deque
   * n = 10
+    - inner iterator returned more than 10 items
+
   * n = 50
-==> passed
+    - inner iterator returned more than 50 items
+
+==> FAILED
 
 Test 12: create two parallel iterators to same deque
-==> passed
+    - failed on call 10 to hasNext()
+    - student   iterator 1 hasNext() = true
+    - student   iterator 2 hasNext() = true
+    - reference iterator   hasNext() = false
+
+    - failed on call 50 to hasNext()
+    - student   iterator 1 hasNext() = true
+    - student   iterator 2 hasNext() = true
+    - reference iterator   hasNext() = false
+
+==> FAILED
 
 Test 13: create Deque objects of different parameterized types
 ==> passed
@@ -253,15 +296,16 @@ Test 14: call addFirst() and addLast() with null argument
 ==> passed
 
 Test 15: check that remove() and next() throw the specified exceptions in iterator()
-==> passed
-
-Test 16: call iterator() when the deque is empty
-    - hasNext() returns true
+    - fails to throw an exception when calling next() when iterator is exhausted
+    - should throw a java.util.NoSuchElementException
 
 ==> FAILED
 
+Test 16: call iterator() when the deque is empty
+==> passed
 
-Total: 14/16 tests passed!
+
+Total: 11/16 tests passed!
 
 
 ================================================================
@@ -346,7 +390,7 @@ Test 7: check that iterator() returns correct items after a sequence
 
         ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
         OperationCountLimitExceededException
-        Number of calls to next() and hasNext() exceeds limit: 10000000
+        Number of calls to methods in StdRandom exceeds limit: 10000000
         ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ==> FAILED
@@ -459,10 +503,12 @@ Test 17: check that remove() and next() throw the specified exceptions in iterat
 
 Test 18: call iterator() when randomized queue is empty
 
-    java.util.NoSuchElementException: No more elements to return
+    java.lang.IllegalArgumentException: invalid range: [0, 0)
 
-    RandomizedQueue$ListIterator.hasNext(RandomizedQueue.java:90)
-    TestRandomizedQueue.test18(TestRandomizedQueue.java:1159)
+    edu.princeton.cs.algs4.StdRandom.uniform(StdRandom.java:265)
+    RandomizedQueue$ListIterator.<init>(RandomizedQueue.java:86)
+    RandomizedQueue.iterator(RandomizedQueue.java:82)
+    TestRandomizedQueue.test18(TestRandomizedQueue.java:1153)
     TestRandomizedQueue.main(TestRandomizedQueue.java:1239)
 
 ==> FAILED
@@ -485,37 +531,37 @@ Running 9 total tests.
 
 Test 1a: check formatting for sample inputs from assignment specification
   % java Permutation 3 < distinct.txt
-  H
   B
+  H
   I
 
   % java Permutation 3 < distinct.txt
-  H
+  B
+  C
   F
-  D
 
   % java Permutation 8 < duplicates.txt
+  BB
+  BB
   AA
-  BB
-  BB
-  BB
   CC
   BB
   BB
   CC
+  BB
 
 ==> passed
 
 Test 1b: check formatting for other inputs
   % java Permutation 8 < mediumTale.txt
   it
-  of
-  times
-  foolishness
-  wisdom
   was
+  wisdom
   age
   of
+  best
+  was
+  was
 
   % java Permutation 0 < distinct.txt
   [no output]
@@ -624,10 +670,10 @@ Test 4: Time main() with k = 5, for inputs containing n random strings
 => passed        1000     0.00
 => passed        2000     0.00
 => passed        4000     0.00
-=> passed        8000     0.01
-=> passed       16000     0.17
-=> passed       32000     0.06
-=> passed       64000     0.08
+=> passed        8000     0.00
+=> passed       16000     0.01
+=> passed       32000     0.01
+=> passed       64000     0.02
 => passed      128000     0.04
 => passed      256000     0.08
 => passed      512000     0.16
@@ -646,8 +692,8 @@ Test 5: Time main() with k = 1000, for inputs containing n random strings
 => passed       32000     0.01
 => passed       64000     0.02
 => passed      128000     0.04
-=> passed      256000     0.08
-=> passed      512000     0.43
+=> passed      256000     0.65
+=> passed      512000     0.41
 ==> 10/10 tests passed
 
 
@@ -729,18 +775,18 @@ Test 1a-1i: total memory usage after inserting n items,
 
                  n        bytes
 ----------------------------------------------------------
-=> passed       32         1568
-=> passed       64         3104
-=> passed      128         6176
-=> passed      256        12320
-=> passed      512        24608
-=> passed     1024        49184
-=> passed     2048        98336
-=> passed     4096       196640
-=> passed     8192       393248
+=> passed       32         1576
+=> passed       64         3112
+=> passed      128         6184
+=> passed      256        12328
+=> passed      512        24616
+=> passed     1024        49192
+=> passed     2048        98344
+=> passed     4096       196648
+=> passed     8192       393256
 ==> 9/9 tests passed
 
-Memory: 48.00 n + 32.00   (R^2 = 1.000)
+Memory: 48.00 n + 40.00   (R^2 = 1.000)
 
 
 Test 2a-2i: Total memory usage after inserting n items,
@@ -748,18 +794,18 @@ Test 2a-2i: Total memory usage after inserting n items,
 
                  n        bytes
 ----------------------------------------------------------
-=> passed       33         1616
-=> passed       65         3152
-=> passed      129         6224
-=> passed      257        12368
-=> passed      513        24656
-=> passed     1025        49232
-=> passed     2049        98384
-=> passed     4097       196688
-=> passed     8193       393296
+=> passed       33         1624
+=> passed       65         3160
+=> passed      129         6232
+=> passed      257        12376
+=> passed      513        24664
+=> passed     1025        49240
+=> passed     2049        98392
+=> passed     4097       196696
+=> passed     8193       393304
 ==> 9/9 tests passed
 
-Memory: 48.00 n + 32.00   (R^2 = 1.000)
+Memory: 48.00 n + 40.00   (R^2 = 1.000)
 
 
 Test 3a-3i: Total memory usage after inserting 2n-1 items, and then
@@ -767,18 +813,18 @@ Test 3a-3i: Total memory usage after inserting 2n-1 items, and then
 
                  n        bytes
 ----------------------------------------------------------
-=> passed       33         1616
-=> passed       65         3152
-=> passed      129         6224
-=> passed      257        12368
-=> passed      513        24656
-=> passed     1025        49232
-=> passed     2049        98384
-=> passed     4097       196688
-=> passed     8193       393296
+=> passed       33         1624
+=> passed       65         3160
+=> passed      129         6232
+=> passed      257        12376
+=> passed      513        24664
+=> passed     1025        49240
+=> passed     2049        98392
+=> passed     4097       196696
+=> passed     8193       393304
 ==> 9/9 tests passed
 
-Memory: 48.00 n + 32.00   (R^2 = 1.000)
+Memory: 48.00 n + 40.00   (R^2 = 1.000)
 
 
 Test 4a-4e: Total memory usage after inserting n items,
@@ -787,18 +833,18 @@ Test 4a-4e: Total memory usage after inserting n items,
 
                  n        bytes
 ----------------------------------------------------------
-=> passed       32           80
-=> passed       64           80
-=> passed      128           80
-=> passed      256           80
-=> passed      512           80
-=> passed     1024           80
-=> passed     2048           80
-=> passed     4096           80
-=> passed     8192           80
+=> passed       32           88
+=> passed       64           88
+=> passed      128           88
+=> passed      256           88
+=> passed      512           88
+=> passed     1024           88
+=> passed     2048           88
+=> passed     4096           88
+=> passed     8192           88
 ==> 9/9 tests passed
 
-Memory: 80.00   (R^2 = 1.000)
+Memory: 88.00   (R^2 = 1.000)
 
 
 Test 5a-5e: Total memory usage of iterator after inserting n items
@@ -851,8 +897,8 @@ Test 7: worst-case constant memory allocated or de-allocated
 ==> passed
 
 
-Min observed memory for Deque: 48.00 n + 32.00   (R^2 = 1.000)
-Max observed memory for Deque: 48.00 n + 32.00   (R^2 = 1.000)
+Min observed memory for Deque: 48.00 n + 40.00   (R^2 = 1.000)
+Max observed memory for Deque: 48.00 n + 40.00   (R^2 = 1.000)
 
 Total: 48/48 tests passed!
 
@@ -1063,14 +1109,17 @@ Test 1a-1k: make n calls to addFirst() followed by n calls to removeFirst()
                     n  seconds
 ----------------------------------
 => passed        1024     0.00
-=> passed        2048     0.01
-=> passed        4096     0.02
-=> passed        8192     0.09
-=> passed       16384     0.34
-=> FAILED       32768     1.45
-   [ Most likely one of your operations is not constant time. ]
-
-==> 5/11 tests passed
+=> passed        2048     0.00
+=> passed        4096     0.00
+=> passed        8192     0.00
+=> passed       16384     0.00
+=> passed       32768     0.00
+=> passed       65536     0.00
+=> passed      128000     0.00
+=> passed      256000     0.00
+=> passed      512000     0.01
+=> passed     1024000     0.02
+==> 11/11 tests passed
 
 
 Test 2a-2k: make n calls to addLast() followed by n calls to removeLast()
@@ -1078,13 +1127,16 @@ Test 2a-2k: make n calls to addLast() followed by n calls to removeLast()
 ----------------------------------
 => passed        1024     0.00
 => passed        2048     0.00
-=> passed        4096     0.02
-=> passed        8192     0.08
-=> passed       16384     0.31
-=> FAILED       32768     1.37
-   [ Most likely one of your operations is not constant time. ]
-
-==> 5/11 tests passed
+=> passed        4096     0.00
+=> passed        8192     0.00
+=> passed       16384     0.00
+=> passed       32768     0.00
+=> passed       65536     0.00
+=> passed      128000     0.00
+=> passed      256000     0.00
+=> passed      512000     0.01
+=> passed     1024000     0.02
+==> 11/11 tests passed
 
 
 Test 3a-3k: make n calls to addFirst() followed by n calls to removeLast()
@@ -1092,85 +1144,21 @@ Test 3a-3k: make n calls to addFirst() followed by n calls to removeLast()
 ----------------------------------
 => passed        1024     0.00
 => passed        2048     0.00
-=> passed        4096     0.02
-=> passed        8192     0.08
-=> passed       16384     0.30
-=> FAILED       32768     1.33
-   [ Most likely one of your operations is not constant time. ]
-
-==> 5/11 tests passed
+=> passed        4096     0.00
+=> passed        8192     0.00
+=> passed       16384     0.00
+=> passed       32768     0.00
+=> passed       65536     0.00
+=> passed      128000     0.00
+=> passed      256000     0.00
+=> passed      512000     0.01
+=> passed     1024000     0.01
+==> 11/11 tests passed
 
 
 Test 4a-4k: make n calls to addLast() followed by n calls to removeFirst()
                     n  seconds
 ----------------------------------
-=> passed        1024     0.00
-=> passed        2048     0.00
-=> passed        4096     0.02
-=> passed        8192     0.08
-=> passed       16384     0.30
-=> FAILED       32768     1.33
-   [ Most likely one of your operations is not constant time. ]
-
-==> 5/11 tests passed
-
-
-Test 5a-5g: make n random calls to addFirst(), removeFirst(), isEmpty(), and size()
-            with probabilities (0.7, 0.1, 0.1, 0.1)
-
-                    n  seconds
-------------------------------
-=> passed        1024     0.00
-=> passed        2048     0.00
-=> passed        4096     0.01
-=> passed        8192     0.02
-=> passed       16384     0.07
-=> passed       32768     0.27
-=> FAILED       65536     1.20
-   [ Most likely one of your operations is not constant time. ]
-
-==> 6/12 tests passed
-
-
-Test 6a-6g: make n random calls to addLast(), removeLast(), isEmpty(), and size(),
-            with probabilities (0.7, 0.1, 0.1, 0.1)
-
-                    n  seconds
-------------------------------
-=> passed        1024     0.00
-=> passed        2048     0.00
-=> passed        4096     0.00
-=> passed        8192     0.02
-=> passed       16384     0.07
-=> passed       32768     0.28
-=> FAILED       65536     1.12
-   [ Most likely one of your operations is not constant time. ]
-
-==> 6/12 tests passed
-
-
-Test 7a-7g: make n random calls to addFirst(), addLast(), removeFirst(), removeLast(),
-            isEmpty(), and size() with probabilities (0.3, 0.3, 0.1, 0.1, 0.1, 0.1)
-
-                    n  seconds
-------------------------------
-=> passed        1024     0.00
-=> passed        2048     0.00
-=> passed        4096     0.00
-=> passed        8192     0.02
-=> passed       16384     0.08
-=> passed       32768     0.32
-=> FAILED       65536     1.80
-   [ Most likely one of your operations is not constant time. ]
-
-==> 6/12 tests passed
-
-
-Test 8a-8g: make n calls to addFirst(); iterate over the n items by calling
-            next() and hasNext()
-
-                    n  seconds
-------------------------------
 => passed        1024     0.00
 => passed        2048     0.00
 => passed        4096     0.00
@@ -1181,9 +1169,85 @@ Test 8a-8g: make n calls to addFirst(); iterate over the n items by calling
 => passed      128000     0.00
 => passed      256000     0.01
 => passed      512000     0.01
-=> passed     1024000     0.04
-=> passed     2048000     0.31
+=> passed     1024000     0.03
+==> 11/11 tests passed
+
+
+Test 5a-5g: make n random calls to addFirst(), removeFirst(), isEmpty(), and size()
+            with probabilities (0.7, 0.1, 0.1, 0.1)
+
+                    n  seconds
+------------------------------
+=> passed        1024     0.00
+=> passed        2048     0.00
+=> passed        4096     0.00
+=> passed        8192     0.00
+=> passed       16384     0.00
+=> passed       32768     0.00
+=> passed       65536     0.00
+=> passed      128000     0.01
+=> passed      256000     0.01
+=> passed      512000     0.02
+=> passed     1024000     0.03
+=> passed     2048000     0.06
 ==> 12/12 tests passed
+
+
+Test 6a-6g: make n random calls to addLast(), removeLast(), isEmpty(), and size(),
+            with probabilities (0.7, 0.1, 0.1, 0.1)
+
+                    n  seconds
+------------------------------
+=> passed        1024     0.00
+=> passed        2048     0.00
+=> passed        4096     0.00
+=> passed        8192     0.00
+=> passed       16384     0.00
+=> passed       32768     0.00
+=> passed       65536     0.01
+=> passed      128000     0.01
+=> passed      256000     0.01
+=> passed      512000     0.02
+=> passed     1024000     0.03
+=> passed     2048000     0.11
+==> 12/12 tests passed
+
+
+Test 7a-7g: make n random calls to addFirst(), addLast(), removeFirst(), removeLast(),
+            isEmpty(), and size() with probabilities (0.3, 0.3, 0.1, 0.1, 0.1, 0.1)
+
+                    n  seconds
+------------------------------
+=> passed        1024     0.00
+=> passed        2048     0.00
+=> passed        4096     0.00
+=> passed        8192     0.00
+=> passed       16384     0.00
+=> passed       32768     0.00
+=> passed       65536     0.00
+=> passed      128000     0.01
+=> passed      256000     0.01
+=> passed      512000     0.02
+=> passed     1024000     0.25
+=> passed     2048000     0.19
+==> 12/12 tests passed
+
+
+Test 8a-8g: make n calls to addFirst(); iterate over the n items by calling
+            next() and hasNext()
+
+                    n  seconds
+------------------------------
+
+
+        ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+        OperationCountLimitExceededException
+        Number of calls to next() and hasNext() exceeds limit: 100000000
+        ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+=> FAILED        1024   Test did not complete due to an exception.
+
+==> 0/12 tests passed
 
 
 Test 9a-9k: make n calls to addFirst()/addLast(); interleave n calls each to
@@ -1191,16 +1255,20 @@ Test 9a-9k: make n calls to addFirst()/addLast(); interleave n calls each to
 
                     n  seconds
 ----------------------------------
-=> passed        1025     0.01
-=> passed        2049     0.03
-=> passed        4097     0.13
-=> passed        8193     0.51
-=> FAILED       16385     2.39
-   [ Most likely one of your operations is not constant time. ]
+=> passed        1025     0.00
+=> passed        2049     0.00
+=> passed        4097     0.00
+=> passed        8193     0.00
+=> passed       16385     0.00
+=> passed       32769     0.00
+=> passed       65537     0.01
+=> passed      128001     0.02
+=> passed      256001     0.02
+=> passed      512001     0.03
+=> passed     1024001     0.08
+==> 11/11 tests passed
 
-==> 4/11 tests passed
-
-Total: 54/103 tests passed!
+Total: 91/103 tests passed!
 
 
 ================================================================
@@ -1268,9 +1336,9 @@ Test 4a-k: make n calls to enqueue() followed by n calls to dequeue()
 => passed       32768     0.00
 => passed       65536     0.01
 => passed      128000     0.01
-=> passed      256000     0.02
+=> passed      256000     0.01
 => passed      512000     0.03
-=> passed     1024000     0.07
+=> passed     1024000     0.06
 ==> 11/11 tests passed
 
 
@@ -1288,9 +1356,9 @@ Test 5a-k: make n calls to enqueue() followed by n random calls to
 => passed       32768     0.00
 => passed       65536     0.01
 => passed      128000     0.01
-=> passed      256000     0.03
+=> passed      256000     0.02
 => passed      512000     0.06
-=> passed     1024000     0.11
+=> passed     1024000     0.12
 ==> 11/11 tests passed
 
 
@@ -1309,7 +1377,7 @@ Test 6a-k: make n calls to enqueue() followed by n random calls to
 => passed       65536     0.00
 => passed      128000     0.01
 => passed      256000     0.02
-=> passed      512000     0.22
+=> passed      512000     0.06
 => passed     1024000     0.11
 ==> 11/11 tests passed
 
@@ -1328,9 +1396,9 @@ Test 7a-k: make n calls to enqueue() followed by n random calls to
 => passed       32768     0.00
 => passed       65536     0.00
 => passed      128000     0.01
-=> passed      256000     0.03
-=> passed      512000     0.07
-=> passed     1024000     0.18
+=> passed      256000     0.02
+=> passed      512000     0.06
+=> passed     1024000     0.15
 ==> 11/11 tests passed
 
 
@@ -1364,7 +1432,7 @@ Test 9a-i: make n calls to enqueue(); then call dequeue() twice,
 => passed       32769     0.00
 => passed       65537     0.01
 => passed      128001     0.02
-=> passed      256001     0.07
+=> passed      256001     0.06
 ==> 9/9 tests passed
 
 

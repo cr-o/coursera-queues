@@ -75,4 +75,12 @@
       <method v="2" />
     </configuration>
   </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="rq.iterator()" language="JAVA" />
+        <watch expression="rq.iterator().hasNext()" language="JAVA" />
+      </configuration>
+    </watches-manager>
+  </component>
 </project>
