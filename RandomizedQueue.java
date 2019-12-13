@@ -60,6 +60,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // remove and return a random item
     public Item dequeue() {
+        if (rqSize == 0) {
+            throw new NoSuchElementException("No more elements to dequeue");
+        }
         if (randomizedQueue.length / 4 == rqSize) {
             halveSize();
         }
@@ -73,6 +76,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // return a random item (but do not remove it)
     public Item sample() {
+        if (rqSize == 0) {
+            throw new NoSuchElementException("No more elements to sample");
+        }
         int i = StdRandom.uniform(0, rqSize);
         return randomizedQueue[i];
     }
@@ -83,7 +89,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     private class ListIterator implements Iterator<Item> {
-        private int index = StdRandom.uniform(0, rqSize);
+        private int index;
 
         public boolean hasNext() {
             if (rqSize == 0) {
